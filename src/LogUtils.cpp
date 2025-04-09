@@ -2,7 +2,7 @@
 
 #include <spdlog/sinks/basic_file_sink.h>
 
-namespace Util
+namespace CppUtil
 {
 	spdlog::logger& GetDefaultLogger()
 	{
