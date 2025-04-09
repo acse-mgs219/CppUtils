@@ -2,6 +2,7 @@
 
 #include "LogUtils.h"
 
+#include <string>
 #include <type_traits>
 
 // Macro to automatically log GUID creation
@@ -20,6 +21,15 @@ struct TGUID
 		const bool typesAreSame = std::is_same_v<U, T>;
 		const bool valuesAreSame = ID == other.ID;
 		return typesAreSame && valuesAreSame;
+	}
+
+	std::string ToString() const
+	{
+#ifdef _DEBUG
+		return std::to_string(ID);
+#else
+		return {};
+#endif
 	}
 
 private:
