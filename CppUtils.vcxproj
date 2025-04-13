@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ColourUtil.cpp" />
+    <ClCompile Include="src\JsonUtils.cpp" />
     <ClCompile Include="src\VectorUtil.cpp" />
     <ClCompile Include="src\FilepathUtils.cpp" />
     <ClCompile Include="src\LogUtils.cpp" />
@@ -27,6 +29,8 @@
     <ClCompile Include="src\TextUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ColourUtil.h" />
+    <ClInclude Include="src\JsonUtils.h" />
     <ClInclude Include="src\VectorUtil.h" />
     <ClInclude Include="src\FilepathUtils.h" />
     <ClInclude Include="src\GUIDUtils.h" />
