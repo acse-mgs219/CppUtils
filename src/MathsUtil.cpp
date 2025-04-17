@@ -2,22 +2,27 @@
 
 namespace CppUtil
 {
-	bool Equal(float a, float b, float precision)
+	constexpr bool Equal(float a, float b, float precision)
 	{
-		return std::abs(a - b) < precision;
+		if (a > b)
+		{
+			return a - b < precision;
+		}
+
+		return b - a < precision;
 	}
 
-	float Rad2Deg(float rad)
+	constexpr float Rad2Deg(float rad)
 	{
 		return rad * 180.f / M_PI_F;
 	}
 
-	float Deg2Rad(float deg)
+	constexpr float Deg2Rad(float deg)
 	{
 		return deg / 180.f * M_PI_F;
 	}
 
-	int UniqueID(int x, int y)
+	constexpr int UniqueID(int x, int y)
 	{
 		// Cantor pairing function NxN->N, given by: F(a,b)=12(a+b)(a+b+1)+b.
 		// Note: NOT commutative so F(a,b) != F(b,a)
