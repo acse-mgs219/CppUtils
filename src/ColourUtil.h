@@ -1,6 +1,9 @@
 #pragma once
 
+#include "JsonUtils.h"
 #include "MathsUtil.h"
+
+#include "imgui.h"
 
 #include <string>
 
@@ -8,12 +11,12 @@ namespace CppUtil
 {
 	struct Colour
 	{
-		float r{0};
-		float g{0};
-		float b{0};
-		float a{1};
+		int r{0};
+		int g{0};
+		int b{0};
+		int a{255};
 
-		constexpr Colour(float r, float g, float b, float a = 1.0f)
+		constexpr Colour(int r, int g, int b, int a = 255)
 			: r(r)
 			, g(g)
 			, b(b)
@@ -21,31 +24,44 @@ namespace CppUtil
 		{
 		}
 
+		constexpr Colour(const Colour& other)
+			: r(other.r)
+			, g(other.g)
+			, b(other.b)
+			, a(other.a)
+		{
+		}
+
 		// Equality operator
 		constexpr bool operator==(const Colour& other) const
 		{
-			return CppUtil::Equal(r, other.r) && CppUtil::Equal(g, other.g) && CppUtil::Equal(b, other.b) &&
-				CppUtil::Equal(a, other.a);
+			return r == other.r && g == other.g && b == other.b && a == other.a;
 		}
+
+		ImVec4 ToImVec4() const;
+		std::string ToHex() const;
+
+		Colour WithAlpha(int alpha) const { return {r, g, b, alpha}; }
 
 		static Colour FromHex(const std::string& hex);
 
-		Colour WithAlpha(float alpha) const { return Colour(r, g, b, alpha); }
+		static constexpr Colour White() { return {255, 255, 255}; }
 
-		static constexpr Colour White() { return Colour(1.0f, 1.0f, 1.0f); }
+		static constexpr Colour Black() { return {0, 0, 0}; }
 
-		static constexpr Colour Black() { return Colour(0.0f, 0.0f, 0.0f); }
+		static constexpr Colour Red() { return {255, 0, 0}; }
 
-		static constexpr Colour Red() { return Colour(1.0f, 0.0f, 0.0f); }
+		static constexpr Colour Green() { return {0, 255, 0}; }
 
-		static constexpr Colour Green() { return Colour(0.0f, 1.0f, 0.0f); }
+		static constexpr Colour Blue() { return {0, 0, 255}; }
 
-		static constexpr Colour Blue() { return Colour(0.0f, 0.0f, 1.0f); }
+		static constexpr Colour Yellow() { return {255, 255, 0}; }
 
-		static constexpr Colour Yellow() { return Colour(1.0f, 1.0f, 0.0f); }
+		static constexpr Colour Cyan() { return {0, 255, 255}; }
 
-		static constexpr Colour Cyan() { return Colour(0.0f, 1.0f, 1.0f); }
+		static constexpr Colour Magenta() { return {255, 0, 255}; }
 
-		static constexpr Colour Magenta() { return Colour(1.0f, 0.0f, 1.0f); }
+		nlohmann::json ToJson() const;
+		static Colour FromJson(const nlohmann::json& j);
 	};
 }
