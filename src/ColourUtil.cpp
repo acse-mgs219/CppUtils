@@ -26,7 +26,7 @@ namespace CppUtil
 	std::string Colour::ToHex() const
 	{
 		char hex[10];
-		sprintf(hex, "#%02X%02X%02X", r, g, b);
+		sprintf_s(hex, "#%02X%02X%02X", r, g, b);
 		return std::string(hex);
 	}
 
