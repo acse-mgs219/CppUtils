@@ -1,3 +1,5 @@
+#pragma once
+
 #include <concepts>
 
 #include <nlohmann/json.hpp>
@@ -12,16 +14,5 @@ namespace CppUtil
 		{
 			obj.ToJson()
 		} -> std::same_as<nlohmann::json>;
-	};
-
-	template <class T>
-	class ISerializable
-	{
-	public:
-		virtual ~ISerializable() = default;
-
-		virtual nlohmann::json ToJson() const = 0;
-
-		static T FromJson(const nlohmann::json& j) { return T::FromJson(j); }
 	};
 }
