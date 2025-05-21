@@ -3,6 +3,7 @@
 #include "LogUtils.h"
 
 #include <cstdint>
+#include <fmt/format.h>
 #include <string>
 #include <type_traits>
 
