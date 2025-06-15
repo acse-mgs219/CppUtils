@@ -62,7 +62,7 @@ QualifierOrder:
 ReflowComments: true
 RequiresClausePosition: OwnLine
 IndentRequiresClause: false
-SeparateDefinitionBlocks: Always
+SeparateDefinitionBlocks: Leave
 SpaceBeforeCaseColon: false
 SpaceBeforeSquareBrackets: false
 SortIncludes: CaseSensitive
