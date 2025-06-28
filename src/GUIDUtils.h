@@ -33,6 +33,8 @@ template <typename T>
 class TGUID
 {
 public:
+	static TGUID<T> Invalid() { return TGUID<T>(0); }
+
 	explicit TGUID(std::string_view name)
 		: mID(Hash(name))
 	{
@@ -42,7 +44,7 @@ public:
 #endif
 	}
 
-	explicit TGUID(uint64_t id)
+	explicit TGUID(uint64_t id = 0)
 		: mID(id)
 	{
 #ifdef _DEBUG
