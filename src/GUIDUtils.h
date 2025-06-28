@@ -56,9 +56,10 @@ public:
 		return guid;
 	}
 
-	uint64_t ID() const { return mID; }
+	[[nodiscard]] uint64_t ID() const { return mID; }
+	[[nodiscard]] bool IsValid() const { return mID != 0; }
 
-	std::string GetDebugString() const
+	[[nodiscard]] std::string GetDebugString() const
 	{
 #ifdef _DEBUG
 		return fmt::format("{}({})", mDebugString, mID);
