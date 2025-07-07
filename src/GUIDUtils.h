@@ -48,7 +48,7 @@ public:
 		: mID(id)
 	{
 #ifdef _DEBUG
-		mDebugString = fmt::format("{}({})", Util::get_type_name<T>(), id);
+		mDebugString = Util::get_type_name<T>();
 #endif
 	}
 

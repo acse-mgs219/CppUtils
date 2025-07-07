@@ -71,11 +71,11 @@ namespace Util
 	{
 #if defined(_MSC_VER)
 		const std::string func_sig = __FUNCSIG__;
-		const std::string prefix = "std::string __cdecl get_type_name<";
+		const std::string prefix = "get_type_name<";
 		const std::string suffix = ">(void)";
 #elif defined(__clang__) || defined(__GNUC__)
 		const std::string func_sig = __PRETTY_FUNCTION__;
-		const std::string prefix = "std::string get_type_name() [with T = ";
+		const std::string prefix = "get_type_name() [with T = ";
 		const std::string suffix = "]";
 #else
 		return "Unsupported compiler";
