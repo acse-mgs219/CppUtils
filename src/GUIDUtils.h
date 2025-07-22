@@ -7,6 +7,8 @@
 #include <string>
 #include <type_traits>
 
+#include <nlohmann/json.hpp>
+
 // Macro to automatically log GUID creation
 #define LOG_GUID_CREATION(className) LOG_INFO(#className " created with GUID: {}", mGUID.GetDebugString())
 
@@ -33,8 +35,6 @@ template <typename T>
 class TGUID
 {
 public:
-	static TGUID<T> Invalid() { return TGUID<T>(0); }
-
 	explicit TGUID(std::string_view name)
 		: mID(Hash(name))
 	{
@@ -52,10 +52,36 @@ public:
 #endif
 	}
 
+	static TGUID<T> Invalid() { return TGUID<T>(0); }
+
 	static TGUID<T> Generate()
 	{
 		TGUID<T> guid(++sAutoIncrement);
 		return guid;
+	}
+
+	static TGUID<T> FromJson(const nlohmann::json& j)
+	{
+		if (j.is_string())
+		{
+			return TGUID<T>(j.get<std::string>());
+		}
+		if (j.is_number_integer())
+		{
+			return TGUID<T>(j.get<int>());
+		}
+
+		LOG_CRITICAL("Invalid json for TGUID: {}, of type {}.", j.dump(), j.type_name());
+		return Invalid();
+	}
+
+	nlohmann::json ToJson() const
+	{
+#ifdef _DEBUG
+		return mDebugString;
+#else
+		return mID;
+#endif
 	}
 
 	[[nodiscard]] uint64_t ID() const { return mID; }
