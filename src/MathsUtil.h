@@ -1,5 +1,7 @@
 #pragma once
 
+#include "JsonUtils.h"
+
 #include <algorithm>
 #include <corecrt_math_defines.h>
 #include <functional>
@@ -22,6 +24,10 @@ namespace CppUtil
 		int y{0};
 
 		friend bool operator==(const Vector2i& lhs, const Vector2i& rhs) { return lhs.x == rhs.x && lhs.y == rhs.y; }
+
+		nlohmann::json ToJson() const;
+
+		static Vector2i FromJson(const nlohmann::json& j);
 	};
 
 	using Point2i = Vector2i;

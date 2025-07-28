@@ -1,5 +1,7 @@
 #include "MathsUtil.h"
 
+#include "LogUtils.h"
+
 namespace CppUtil
 {
 	constexpr bool Equal(float a, float b, float precision)
@@ -29,5 +31,24 @@ namespace CppUtil
 		const auto mult = static_cast<float>((x + y) * (x + y + 1));
 		const auto div = static_cast<int>(mult / 2.f) + y;
 		return div;
+	}
+
+	nlohmann::json Vector2i::ToJson() const
+	{
+		auto j = nlohmann::json::array();
+		j.push_back(x);
+		j.push_back(y);
+		return j;
+	}
+
+	Vector2i Vector2i::FromJson(const nlohmann::json& j)
+	{
+		if (j.is_array() && j.size() == 2)
+		{
+			return {j[0].get<int>(), j[1].get<int>()};
+		}
+
+		LOG_CRITICAL("Invalid serialized vector");
+		return {0, 0};
 	}
 }
