@@ -171,3 +171,16 @@ namespace std
 		std::size_t operator()(const TGUID<T>& guid) const noexcept { return std::hash<uint64_t>()(guid.ID()); }
 	};
 }
+
+template <typename T>
+struct fmt::formatter<TGUID<T>>
+{
+	formatter<std::string> string_formatter;
+
+	constexpr auto parse(format_parse_context& ctx) { return string_formatter.parse(ctx); }
+
+	auto format(const TGUID<T>& val, format_context& ctx) const
+	{
+		return string_formatter.format(val.GetDebugString(), ctx);
+	}
+};
