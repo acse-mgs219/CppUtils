@@ -8,6 +8,16 @@
 
 namespace CppUtil
 {
+	template <typename T>
+	concept RandomAccessContainer = requires(T c, int i) {
+		{
+			c.size()
+		} -> std::integral;
+		{
+			c[i]
+		};
+	};
+
 	class CRand
 	{
 	public:
@@ -18,7 +28,7 @@ namespace CppUtil
 		}
 
 		// Initialize with a specific seed (useful for testing)
-		void Initialize(uint64_t seed) { mGenerator.seed(seed); }
+		void Initialize(int64_t seed) { mGenerator.seed(seed); }
 
 		// Initialize with current time (default behavior)
 		void Initialize()
@@ -26,7 +36,7 @@ namespace CppUtil
 			auto now = std::chrono::system_clock::now();
 			auto duration = now.time_since_epoch();
 			auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
-			Initialize(static_cast<uint64_t>(millis));
+			Initialize(static_cast<int64_t>(millis));
 		}
 
 		// Generate a random integer in range [min, max]
@@ -51,20 +61,22 @@ namespace CppUtil
 		}
 
 		// Generate a random boolean with given probability of true
-		bool GetRandomBool(float probabilityOfTrue = 0.5f) { return GetRandomFloat(0.0f, 1.0f) < probabilityOfTrue; }
+		bool GetRandomBool(float probabilityOfTrue = 0.5f)
+		{
+			return GetRandomFloat(0.0f, 1.0f) < probabilityOfTrue;
+		}
 
 		template <typename T>
 		requires std::is_default_constructible_v<T>
-		T GetWeightedRandom(std::map<T, int> weights)
+		T GetWeightedRandom(std::vector<std::pair<T, int>> weights)
 		{
-			const int weightsSize = weights.size();
-			if (weightsSize == 0)
+			if (weights.empty())
 			{
 				LOG_WARNING("Trying to pick random from empty map");
 				return T{};
 			}
 
-			const int totalWeight = weights[weightsSize - 1];
+			const int totalWeight = weights.back().second;
 			const int randomWeight = GetRandomInt(0, totalWeight);
 			for (const auto& weight : weights)
 			{
@@ -76,6 +88,14 @@ namespace CppUtil
 
 			LOG_CRITICAL("Error picking random weight");
 			return T{};
+		}
+
+		template <RandomAccessContainer T>
+		auto GetRandomElement(const T& container) -> decltype(container[0])
+		{
+			const auto totalItems = static_cast<int>(container.size());
+			const int randomIndex = GetRandomInt(0, totalItems - 1);
+			return container[randomIndex];
 		}
 
 	private:
