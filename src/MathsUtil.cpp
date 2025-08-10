@@ -41,14 +41,13 @@ namespace CppUtil
 		return j;
 	}
 
-	Vector2i Vector2i::FromJson(const nlohmann::json& j)
+	std::optional<Vector2i> Vector2i::FromJson(const nlohmann::json& j)
 	{
 		if (j.is_array() && j.size() == 2)
 		{
-			return {j[0].get<int>(), j[1].get<int>()};
+			return Vector2i{j[0].get<int>(), j[1].get<int>()};
 		}
 
-		LOG_CRITICAL("Invalid serialized vector");
-		return {0, 0};
+		return std::nullopt;
 	}
 }

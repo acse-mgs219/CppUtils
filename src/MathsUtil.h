@@ -27,7 +27,7 @@ namespace CppUtil
 
 		nlohmann::json ToJson() const;
 
-		static Vector2i FromJson(const nlohmann::json& j);
+		static std::optional<Vector2i> FromJson(const nlohmann::json& j);
 	};
 
 	using Point2i = Vector2i;
