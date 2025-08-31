@@ -30,29 +30,28 @@ namespace CppUtil
 		return std::string(hex);
 	}
 
-	nlohmann::json Colour::ToJson() const
+	void to_json(nlohmann::json& j, const Colour& colour)
 	{
-		auto j = nlohmann::json::array();
-		j.push_back(r);
-		j.push_back(g);
-		j.push_back(b);
-		j.push_back(a);
-		return j;
+		j = nlohmann::json::array();
+		j.push_back(colour.r);
+		j.push_back(colour.g);
+		j.push_back(colour.b);
+		j.push_back(colour.a);
 	}
 
-	Colour Colour::FromJson(const nlohmann::json& j)
+	void from_json(const nlohmann::json& j, Colour& guid)
 	{
 		if (j.is_array() && j.size() == 4)
 		{
-			return Colour(j[0].get<int>(), j[1].get<int>(), j[2].get<int>(), j[3].get<int>());
+			guid = Colour(j[0].get<int>(), j[1].get<int>(), j[2].get<int>(), j[3].get<int>());
 		}
 
 		if (j.is_string())
 		{
-			return FromHex(j.get<std::string>());
+			guid = Colour::FromHex(j.get<std::string>());
 		}
 
 		LOG_CRITICAL("Invalid Colour JSON format");
-		return Colour::Black();
+		guid = Colour::Black();
 	}
 }

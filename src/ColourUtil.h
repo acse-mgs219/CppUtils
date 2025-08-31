@@ -61,7 +61,10 @@ namespace CppUtil
 
 		static constexpr Colour Magenta() { return {255, 0, 255}; }
 
-		nlohmann::json ToJson() const;
-		static Colour FromJson(const nlohmann::json& j);
+		friend void to_json(nlohmann::json& j, const Colour& colour);
+		friend void from_json(const nlohmann::json& j, Colour& guid);
 	};
+
+	void to_json(nlohmann::json& j, const Colour& colour);
+	void from_json(const nlohmann::json& j, Colour& guid);
 }
