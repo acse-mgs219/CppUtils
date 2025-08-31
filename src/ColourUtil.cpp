@@ -39,19 +39,19 @@ namespace CppUtil
 		j.push_back(colour.a);
 	}
 
-	void from_json(const nlohmann::json& j, Colour& guid)
+	void from_json(const nlohmann::json& j, Colour& colour)
 	{
 		if (j.is_array() && j.size() == 4)
 		{
-			guid = Colour(j[0].get<int>(), j[1].get<int>(), j[2].get<int>(), j[3].get<int>());
+			colour = Colour(j[0].get<int>(), j[1].get<int>(), j[2].get<int>(), j[3].get<int>());
 		}
 
 		if (j.is_string())
 		{
-			guid = Colour::FromHex(j.get<std::string>());
+			colour = Colour::FromHex(j.get<std::string>());
 		}
 
 		LOG_CRITICAL("Invalid Colour JSON format");
-		guid = Colour::Black();
+		colour = Colour::Black();
 	}
 }

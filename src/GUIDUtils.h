@@ -30,6 +30,13 @@
 //    struct MyType {};
 //    TGUID<MyType> id("archer-1");
 //    uint64_t raw = id.GetValue();
+//template <typename T>
+//class TGUID;
+//
+//template <typename T>
+//void to_json<T>(nlohmann::json& j, const TGUID<T>& guid);
+//template <typename T>
+//void from_json<T>(const nlohmann::json& j, TGUID<T>& guid);
 
 template <typename T>
 class TGUID
@@ -142,8 +149,8 @@ private:
 		return hash;
 	}
 
-	friend void to_json<>(nlohmann::json& j, const TGUID<T>& guid);
-	friend void from_json<>(const nlohmann::json& j, TGUID<T>& guid);
+	friend void to_json<T>(nlohmann::json& j, const TGUID<T>& guid);
+	friend void from_json<T>(const nlohmann::json& j, TGUID<T>& guid);
 };
 
 template <typename T>

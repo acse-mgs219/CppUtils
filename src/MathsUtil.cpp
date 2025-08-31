@@ -33,21 +33,21 @@ namespace CppUtil
 		return div;
 	}
 
-	nlohmann::json Vector2i::ToJson() const
+	void to_json(nlohmann::json& j, const Vector2i& vector2i)
 	{
-		auto j = nlohmann::json::array();
-		j.push_back(x);
-		j.push_back(y);
-		return j;
+		j = nlohmann::json::array();
+		j.push_back(vector2i.x);
+		j.push_back(vector2i.y);
 	}
 
-	std::optional<Vector2i> Vector2i::FromJson(const nlohmann::json& j)
+	void from_json(const nlohmann::json& j, Vector2i& vector2i)
 	{
 		if (j.is_array() && j.size() == 2)
 		{
-			return Vector2i{j[0].get<int>(), j[1].get<int>()};
+			vector2i = Vector2i{j[0].get<int>(), j[1].get<int>()};
 		}
 
-		return std::nullopt;
+		LOG_CRITICAL("Invalid Vector2i JSON format");
+		vector2i = Vector2i{};
 	}
 }

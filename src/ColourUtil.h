@@ -11,6 +11,8 @@ namespace CppUtil
 {
 	struct Colour
 	{
+		Colour() = default;
+
 		int r{0};
 		int g{0};
 		int b{0};
@@ -60,11 +62,8 @@ namespace CppUtil
 		static constexpr Colour Cyan() { return {0, 255, 255}; }
 
 		static constexpr Colour Magenta() { return {255, 0, 255}; }
-
-		friend void to_json(nlohmann::json& j, const Colour& colour);
-		friend void from_json(const nlohmann::json& j, Colour& guid);
 	};
 
 	void to_json(nlohmann::json& j, const Colour& colour);
-	void from_json(const nlohmann::json& j, Colour& guid);
+	void from_json(const nlohmann::json& j, Colour& colour);
 }

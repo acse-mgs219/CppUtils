@@ -24,11 +24,10 @@ namespace CppUtil
 		int y{0};
 
 		friend bool operator==(const Vector2i& lhs, const Vector2i& rhs) { return lhs.x == rhs.x && lhs.y == rhs.y; }
-
-		nlohmann::json ToJson() const;
-
-		static std::optional<Vector2i> FromJson(const nlohmann::json& j);
 	};
+
+	void to_json(nlohmann::json& j, const Vector2i& vector2i);
+	void from_json(const nlohmann::json& j, Vector2i& vector2i);
 
 	using Point2i = Vector2i;
 
