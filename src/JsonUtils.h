@@ -15,4 +15,6 @@ namespace CppUtil
 			obj.ToJson()
 		} -> std::same_as<nlohmann::json>;
 	};
+
+	bool LoadFileIntoJson(const std::string& filePath, nlohmann::json& j);
 }
