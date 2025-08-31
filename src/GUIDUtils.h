@@ -52,36 +52,17 @@ public:
 #endif
 	}
 
+	TGUID(const TGUID<T>& other) = default;
+	TGUID(TGUID<T>&& other) noexcept = default;
+	TGUID<T>& operator=(const TGUID<T>& other) = default;
+	TGUID<T>& operator=(TGUID<T>&& other) noexcept = default;
+
 	static TGUID<T> Invalid() { return TGUID<T>(0); }
 
 	static TGUID<T> Generate()
 	{
 		TGUID<T> guid(++sAutoIncrement);
 		return guid;
-	}
-
-	static TGUID<T> FromJson(const nlohmann::json& j)
-	{
-		if (j.is_string())
-		{
-			return TGUID<T>(j.get<std::string>());
-		}
-		if (j.is_number_integer())
-		{
-			return TGUID<T>(j.get<int>());
-		}
-
-		LOG_CRITICAL("Invalid json for TGUID: {}, of type {}.", j.dump(), j.type_name());
-		return Invalid();
-	}
-
-	nlohmann::json ToJson() const
-	{
-#ifdef _DEBUG
-		return mDebugString;
-#else
-		return mID;
-#endif
 	}
 
 	[[nodiscard]] uint64_t ID() const { return mID; }
@@ -160,7 +141,36 @@ private:
 		}
 		return hash;
 	}
+
+	friend void to_json<>(nlohmann::json& j, const TGUID<T>& guid);
+	friend void from_json<>(const nlohmann::json& j, TGUID<T>& guid);
 };
+
+template <typename T>
+void to_json(nlohmann::json& j, const TGUID<T>& guid)
+{
+#ifdef _DEBUG
+	j = guid.mDebugString;
+#else
+	j = guid.mID;
+#endif
+}
+
+template <typename T>
+void from_json(const nlohmann::json& j, TGUID<T>& guid)
+{
+	if (j.is_string())
+	{
+		guid = TGUID<T>(j.get<std::string>());
+	}
+	if (j.is_number_integer())
+	{
+		guid = TGUID<T>(j.get<int>());
+	}
+
+	LOG_CRITICAL("Invalid json for TGUID: {}, of type {}.", j.dump(), j.type_name());
+	guid = TGUID<T>::Invalid();
+}
 
 // Allow TGUID<T> to be used in std::unordered_map
 namespace std
