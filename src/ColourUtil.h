@@ -67,3 +67,13 @@ namespace CppUtil
 	void to_json(nlohmann::json& j, const Colour& colour);
 	void from_json(const nlohmann::json& j, Colour& colour);
 }
+
+// Allow Colour to be used in std::unordered_map
+namespace std
+{
+	template <>
+	struct hash<CppUtil::Colour>
+	{
+		std::size_t operator()(const CppUtil::Colour& colour) const noexcept { return std::hash<std::string>()(colour.ToHex()); }
+	};
+}
