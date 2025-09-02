@@ -45,13 +45,14 @@ namespace CppUtil
 		{
 			colour = Colour(j[0].get<int>(), j[1].get<int>(), j[2].get<int>(), j[3].get<int>());
 		}
-
-		if (j.is_string())
+		else if (j.is_string())
 		{
 			colour = Colour::FromHex(j.get<std::string>());
 		}
-
-		LOG_CRITICAL("Invalid Colour JSON format");
-		colour = Colour::Black();
+		else
+		{
+			LOG_CRITICAL("Invalid Colour JSON format");
+			colour = Colour::Black();
+		}
 	}
 }

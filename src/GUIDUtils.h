@@ -170,13 +170,15 @@ void from_json(const nlohmann::json& j, TGUID<T>& guid)
 	{
 		guid = TGUID<T>(j.get<std::string>());
 	}
-	if (j.is_number_integer())
+	else if (j.is_number_integer())
 	{
 		guid = TGUID<T>(j.get<int>());
 	}
-
-	LOG_CRITICAL("Invalid json for TGUID: {}, of type {}.", j.dump(), j.type_name());
-	guid = TGUID<T>::Invalid();
+	else
+	{
+		LOG_CRITICAL("Invalid json for TGUID: {}, of type {}.", j.dump(), j.type_name());
+		guid = TGUID<T>::Invalid();
+	}
 }
 
 // Allow TGUID<T> to be used in std::unordered_map
